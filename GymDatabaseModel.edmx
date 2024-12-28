@@ -1,0 +1,849 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GymDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Classes">
+          <Key>
+            <PropertyRef Name="class_id" />
+          </Key>
+          <Property Name="class_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="class_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="schedule" Type="nvarchar(max)" />
+          <Property Name="instructor_id" Type="int" Nullable="false" />
+          <Property Name="capacity" Type="int" />
+        </EntityType>
+        <EntityType Name="Enrollments">
+          <Key>
+            <PropertyRef Name="enrollment_id" />
+          </Key>
+          <Property Name="enrollment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="member_id" Type="int" Nullable="false" />
+          <Property Name="class_id" Type="int" Nullable="false" />
+          <Property Name="enrollment_date" Type="date" />
+        </EntityType>
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="equipment_id" />
+          </Key>
+          <Property Name="equipment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="equipment_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="purchase_date" Type="date" />
+          <Property Name="condition" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Equipment_Rentals">
+          <Key>
+            <PropertyRef Name="rental_id" />
+          </Key>
+          <Property Name="rental_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="member_id" Type="int" Nullable="false" />
+          <Property Name="equipment_id" Type="int" Nullable="false" />
+          <Property Name="rental_date" Type="datetime" Nullable="false" />
+          <Property Name="return_date" Type="datetime" />
+          <Property Name="rental_status" Type="varchar" MaxLength="20" />
+          <Property Name="notes" Type="text" />
+        </EntityType>
+        <EntityType Name="Maintenance_Logs">
+          <Key>
+            <PropertyRef Name="maintenance_id" />
+          </Key>
+          <Property Name="maintenance_id" Type="int" Nullable="false" />
+          <Property Name="staff_id" Type="int" Nullable="false" />
+          <Property Name="equipment_id" Type="int" Nullable="false" />
+          <Property Name="maintenance_date" Type="date" />
+          <Property Name="notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Members">
+          <Key>
+            <PropertyRef Name="member_id" />
+          </Key>
+          <Property Name="member_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="last_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="birth_date" Type="date" />
+          <Property Name="gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="address" Type="nvarchar(max)" />
+          <Property Name="join_date" Type="date" />
+          <Property Name="membership_plan_id" Type="int" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Membership_Plans">
+          <Key>
+            <PropertyRef Name="membership_plan_id" />
+          </Key>
+          <Property Name="membership_plan_id" Type="int" Nullable="false" />
+          <Property Name="plan_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="duration" Type="int" />
+          <Property Name="price" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Private_Lessons">
+          <Key>
+            <PropertyRef Name="lesson_id" />
+          </Key>
+          <Property Name="lesson_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="member_id" Type="int" Nullable="false" />
+          <Property Name="staff_id" Type="int" />
+          <Property Name="lesson_date" Type="datetime" />
+          <Property Name="notes" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="staff_id" />
+          </Key>
+          <Property Name="staff_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="position" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="15" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="hire_date" Type="date" />
+          <Property Name="salary" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Visits">
+          <Key>
+            <PropertyRef Name="visit_id" />
+          </Key>
+          <Property Name="visit_id" Type="int" Nullable="false" />
+          <Property Name="member_id" Type="int" Nullable="false" />
+          <Property Name="visit_date" Type="date" />
+          <Property Name="check_in_time" Type="time" Precision="7" />
+          <Property Name="check_out_time" Type="time" Precision="7" />
+        </EntityType>
+        <Association Name="FK__Classes__instruc__47DBAE45">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Classes" Type="Self.Classes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="Classes">
+              <PropertyRef Name="instructor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Enrollmen__class__52593CB8">
+          <End Role="Classes" Type="Self.Classes" Multiplicity="1" />
+          <End Role="Enrollments" Type="Self.Enrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="Enrollments">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Enrollmen__membe__5165187F">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Enrollments" Type="Self.Enrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="Enrollments">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Equipment__equip__08B54D69">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Equipment_Rentals" Type="Self.Equipment_Rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipment_id" />
+            </Principal>
+            <Dependent Role="Equipment_Rentals">
+              <PropertyRef Name="equipment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Equipment__membe__07C12930">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Equipment_Rentals" Type="Self.Equipment_Rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="Equipment_Rentals">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__equip__571DF1D5">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Maintenance_Logs" Type="Self.Maintenance_Logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipment_id" />
+            </Principal>
+            <Dependent Role="Maintenance_Logs">
+              <PropertyRef Name="equipment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__staff__5629CD9C">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Maintenance_Logs" Type="Self.Maintenance_Logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="Maintenance_Logs">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Members__members__3F466844">
+          <End Role="Membership_Plans" Type="Self.Membership_Plans" Multiplicity="1" />
+          <End Role="Members" Type="Self.Members" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Membership_Plans">
+              <PropertyRef Name="membership_plan_id" />
+            </Principal>
+            <Dependent Role="Members">
+              <PropertyRef Name="membership_plan_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Private_L__membe__797309D9">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Private_Lessons" Type="Self.Private_Lessons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="Private_Lessons">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Visits__member_i__4D94879B">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Visits" Type="Self.Visits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="Visits">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Enrollments_Classes">
+          <End Role="Classes" Type="Self.Classes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Enrollments" Type="Self.Enrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="Enrollments">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Enrollments_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Enrollments" Type="Self.Enrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="Enrollments">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GymDatabaseModelStoreContainer">
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Classes" EntityType="Self.Classes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Enrollments" EntityType="Self.Enrollments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Equipment_Rentals" EntityType="Self.Equipment_Rentals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Maintenance_Logs" EntityType="Self.Maintenance_Logs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Membership_Plans" EntityType="Self.Membership_Plans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Private_Lessons" EntityType="Self.Private_Lessons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Visits" EntityType="Self.Visits" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Classes__instruc__47DBAE45" Association="Self.FK__Classes__instruc__47DBAE45">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Classes" EntitySet="Classes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Enrollmen__class__52593CB8" Association="Self.FK__Enrollmen__class__52593CB8">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Enrollments" EntitySet="Enrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Enrollmen__membe__5165187F" Association="Self.FK__Enrollmen__membe__5165187F">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Enrollments" EntitySet="Enrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Equipment__equip__08B54D69" Association="Self.FK__Equipment__equip__08B54D69">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="Equipment_Rentals" EntitySet="Equipment_Rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Equipment__membe__07C12930" Association="Self.FK__Equipment__membe__07C12930">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Equipment_Rentals" EntitySet="Equipment_Rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__equip__571DF1D5" Association="Self.FK__Maintenan__equip__571DF1D5">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="Maintenance_Logs" EntitySet="Maintenance_Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__staff__5629CD9C" Association="Self.FK__Maintenan__staff__5629CD9C">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Maintenance_Logs" EntitySet="Maintenance_Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Members__members__3F466844" Association="Self.FK__Members__members__3F466844">
+            <End Role="Membership_Plans" EntitySet="Membership_Plans" />
+            <End Role="Members" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Private_L__membe__797309D9" Association="Self.FK__Private_L__membe__797309D9">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Private_Lessons" EntitySet="Private_Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Visits__member_i__4D94879B" Association="Self.FK__Visits__member_i__4D94879B">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Visits" EntitySet="Visits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Enrollments_Classes" Association="Self.FK_Enrollments_Classes">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Enrollments" EntitySet="Enrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Enrollments_Members" Association="Self.FK_Enrollments_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Enrollments" EntitySet="Enrollments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GymDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="class_id" />
+          </Key>
+          <Property Name="class_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="class_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="schedule" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="instructor_id" Type="Int32" Nullable="false" />
+          <Property Name="capacity" Type="Int32" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK__Classes__instruc__47DBAE45" FromRole="Classes" ToRole="Staff" />
+          <NavigationProperty Name="Enrollments" Relationship="Self.FK__Enrollmen__class__52593CB8" FromRole="Classes" ToRole="Enrollments" />
+          <NavigationProperty Name="Enrollments1" Relationship="Self.FK_Enrollments_Classes" FromRole="Classes" ToRole="Enrollments" />
+        </EntityType>
+        <EntityType Name="Enrollment">
+          <Key>
+            <PropertyRef Name="enrollment_id" />
+          </Key>
+          <Property Name="enrollment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="member_id" Type="Int32" Nullable="false" />
+          <Property Name="class_id" Type="Int32" Nullable="false" />
+          <Property Name="enrollment_date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Class" Relationship="Self.FK__Enrollmen__class__52593CB8" FromRole="Enrollments" ToRole="Classes" />
+          <NavigationProperty Name="Class1" Relationship="Self.FK_Enrollments_Classes" FromRole="Enrollments" ToRole="Classes" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__Enrollmen__membe__5165187F" FromRole="Enrollments" ToRole="Members" />
+          <NavigationProperty Name="Member1" Relationship="Self.FK_Enrollments_Members" FromRole="Enrollments" ToRole="Members" />
+        </EntityType>
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="equipment_id" />
+          </Key>
+          <Property Name="equipment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="equipment_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="purchase_date" Type="DateTime" Precision="0" />
+          <Property Name="condition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Equipment_Rentals" Relationship="Self.FK__Equipment__equip__08B54D69" FromRole="Equipment" ToRole="Equipment_Rentals" />
+          <NavigationProperty Name="Maintenance_Logs" Relationship="Self.FK__Maintenan__equip__571DF1D5" FromRole="Equipment" ToRole="Maintenance_Logs" />
+        </EntityType>
+        <EntityType Name="Equipment_Rentals">
+          <Key>
+            <PropertyRef Name="rental_id" />
+          </Key>
+          <Property Name="rental_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="member_id" Type="Int32" Nullable="false" />
+          <Property Name="equipment_id" Type="Int32" Nullable="false" />
+          <Property Name="rental_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="return_date" Type="DateTime" Precision="3" />
+          <Property Name="rental_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Equipment__equip__08B54D69" FromRole="Equipment_Rentals" ToRole="Equipment" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__Equipment__membe__07C12930" FromRole="Equipment_Rentals" ToRole="Members" />
+        </EntityType>
+        <EntityType Name="Maintenance_Logs">
+          <Key>
+            <PropertyRef Name="maintenance_id" />
+          </Key>
+          <Property Name="maintenance_id" Type="Int32" Nullable="false" />
+          <Property Name="staff_id" Type="Int32" Nullable="false" />
+          <Property Name="equipment_id" Type="Int32" Nullable="false" />
+          <Property Name="maintenance_date" Type="DateTime" Precision="0" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Maintenan__equip__571DF1D5" FromRole="Maintenance_Logs" ToRole="Equipment" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK__Maintenan__staff__5629CD9C" FromRole="Maintenance_Logs" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="member_id" />
+          </Key>
+          <Property Name="member_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="birth_date" Type="DateTime" Precision="0" />
+          <Property Name="gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="join_date" Type="DateTime" Precision="0" />
+          <Property Name="membership_plan_id" Type="Int32" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Enrollments" Relationship="Self.FK__Enrollmen__membe__5165187F" FromRole="Members" ToRole="Enrollments" />
+          <NavigationProperty Name="Enrollments1" Relationship="Self.FK_Enrollments_Members" FromRole="Members" ToRole="Enrollments" />
+          <NavigationProperty Name="Equipment_Rentals" Relationship="Self.FK__Equipment__membe__07C12930" FromRole="Members" ToRole="Equipment_Rentals" />
+          <NavigationProperty Name="Membership_Plans" Relationship="Self.FK__Members__members__3F466844" FromRole="Members" ToRole="Membership_Plans" />
+          <NavigationProperty Name="Private_Lessons" Relationship="Self.FK__Private_L__membe__797309D9" FromRole="Members" ToRole="Private_Lessons" />
+          <NavigationProperty Name="Visits" Relationship="Self.FK__Visits__member_i__4D94879B" FromRole="Members" ToRole="Visits" />
+        </EntityType>
+        <EntityType Name="Membership_Plans">
+          <Key>
+            <PropertyRef Name="membership_plan_id" />
+          </Key>
+          <Property Name="membership_plan_id" Type="Int32" Nullable="false" />
+          <Property Name="plan_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="duration" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Members" Relationship="Self.FK__Members__members__3F466844" FromRole="Membership_Plans" ToRole="Members" />
+        </EntityType>
+        <EntityType Name="Private_Lessons">
+          <Key>
+            <PropertyRef Name="lesson_id" />
+          </Key>
+          <Property Name="lesson_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="member_id" Type="Int32" Nullable="false" />
+          <Property Name="staff_id" Type="Int32" />
+          <Property Name="lesson_date" Type="DateTime" Precision="3" />
+          <Property Name="notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__Private_L__membe__797309D9" FromRole="Private_Lessons" ToRole="Members" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="staff_id" />
+          </Key>
+          <Property Name="staff_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="hire_date" Type="DateTime" Precision="0" />
+          <Property Name="salary" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Classes" Relationship="Self.FK__Classes__instruc__47DBAE45" FromRole="Staff" ToRole="Classes" />
+          <NavigationProperty Name="Maintenance_Logs" Relationship="Self.FK__Maintenan__staff__5629CD9C" FromRole="Staff" ToRole="Maintenance_Logs" />
+        </EntityType>
+        <EntityType Name="Visit">
+          <Key>
+            <PropertyRef Name="visit_id" />
+          </Key>
+          <Property Name="visit_id" Type="Int32" Nullable="false" />
+          <Property Name="member_id" Type="Int32" Nullable="false" />
+          <Property Name="visit_date" Type="DateTime" Precision="0" />
+          <Property Name="check_in_time" Type="Time" Precision="7" />
+          <Property Name="check_out_time" Type="Time" Precision="7" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__Visits__member_i__4D94879B" FromRole="Visits" ToRole="Members" />
+        </EntityType>
+        <Association Name="FK__Classes__instruc__47DBAE45">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Classes" Type="Self.Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="Classes">
+              <PropertyRef Name="instructor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Enrollmen__class__52593CB8">
+          <End Role="Classes" Type="Self.Class" Multiplicity="1" />
+          <End Role="Enrollments" Type="Self.Enrollment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="Enrollments">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Enrollments_Classes">
+          <End Role="Classes" Type="Self.Class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Enrollments" Type="Self.Enrollment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="Enrollments">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Enrollmen__membe__5165187F">
+          <End Role="Members" Type="Self.Member" Multiplicity="1" />
+          <End Role="Enrollments" Type="Self.Enrollment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="Enrollments">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Enrollments_Members">
+          <End Role="Members" Type="Self.Member" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Enrollments" Type="Self.Enrollment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="Enrollments">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Equipment__equip__08B54D69">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Equipment_Rentals" Type="Self.Equipment_Rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipment_id" />
+            </Principal>
+            <Dependent Role="Equipment_Rentals">
+              <PropertyRef Name="equipment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__equip__571DF1D5">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Maintenance_Logs" Type="Self.Maintenance_Logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipment_id" />
+            </Principal>
+            <Dependent Role="Maintenance_Logs">
+              <PropertyRef Name="equipment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Equipment__membe__07C12930">
+          <End Role="Members" Type="Self.Member" Multiplicity="1" />
+          <End Role="Equipment_Rentals" Type="Self.Equipment_Rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="Equipment_Rentals">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Maintenan__staff__5629CD9C">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Maintenance_Logs" Type="Self.Maintenance_Logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="Maintenance_Logs">
+              <PropertyRef Name="staff_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Members__members__3F466844">
+          <End Role="Membership_Plans" Type="Self.Membership_Plans" Multiplicity="1" />
+          <End Role="Members" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Membership_Plans">
+              <PropertyRef Name="membership_plan_id" />
+            </Principal>
+            <Dependent Role="Members">
+              <PropertyRef Name="membership_plan_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Private_L__membe__797309D9">
+          <End Role="Members" Type="Self.Member" Multiplicity="1" />
+          <End Role="Private_Lessons" Type="Self.Private_Lessons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="Private_Lessons">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Visits__member_i__4D94879B">
+          <End Role="Members" Type="Self.Member" Multiplicity="1" />
+          <End Role="Visits" Type="Self.Visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="Visits">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GymDatabaseEntitiess" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Classes" EntityType="Self.Class" />
+          <EntitySet Name="Enrollments" EntityType="Self.Enrollment" />
+          <EntitySet Name="Equipments" EntityType="Self.Equipment" />
+          <EntitySet Name="Equipment_Rentals" EntityType="Self.Equipment_Rentals" />
+          <EntitySet Name="Maintenance_Logs" EntityType="Self.Maintenance_Logs" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="Membership_Plans" EntityType="Self.Membership_Plans" />
+          <EntitySet Name="Private_Lessons" EntityType="Self.Private_Lessons" />
+          <EntitySet Name="Staffs" EntityType="Self.Staff" />
+          <EntitySet Name="Visits" EntityType="Self.Visit" />
+          <AssociationSet Name="FK__Classes__instruc__47DBAE45" Association="Self.FK__Classes__instruc__47DBAE45">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="Classes" EntitySet="Classes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Enrollmen__class__52593CB8" Association="Self.FK__Enrollmen__class__52593CB8">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Enrollments" EntitySet="Enrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Enrollments_Classes" Association="Self.FK_Enrollments_Classes">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Enrollments" EntitySet="Enrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Enrollmen__membe__5165187F" Association="Self.FK__Enrollmen__membe__5165187F">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Enrollments" EntitySet="Enrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Enrollments_Members" Association="Self.FK_Enrollments_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Enrollments" EntitySet="Enrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Equipment__equip__08B54D69" Association="Self.FK__Equipment__equip__08B54D69">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="Equipment_Rentals" EntitySet="Equipment_Rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__equip__571DF1D5" Association="Self.FK__Maintenan__equip__571DF1D5">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="Maintenance_Logs" EntitySet="Maintenance_Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Equipment__membe__07C12930" Association="Self.FK__Equipment__membe__07C12930">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Equipment_Rentals" EntitySet="Equipment_Rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Maintenan__staff__5629CD9C" Association="Self.FK__Maintenan__staff__5629CD9C">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="Maintenance_Logs" EntitySet="Maintenance_Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Members__members__3F466844" Association="Self.FK__Members__members__3F466844">
+            <End Role="Membership_Plans" EntitySet="Membership_Plans" />
+            <End Role="Members" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Private_L__membe__797309D9" Association="Self.FK__Private_L__membe__797309D9">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Private_Lessons" EntitySet="Private_Lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Visits__member_i__4D94879B" Association="Self.FK__Visits__member_i__4D94879B">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="Visits" EntitySet="Visits" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GymDatabaseModelStoreContainer" CdmEntityContainer="GymDatabaseEntitiess">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="GymDatabaseModel.Admin">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="GymDatabaseModel.Class">
+              <MappingFragment StoreEntitySet="Classes">
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="class_name" ColumnName="class_name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="schedule" ColumnName="schedule" />
+                <ScalarProperty Name="instructor_id" ColumnName="instructor_id" />
+                <ScalarProperty Name="capacity" ColumnName="capacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Enrollments">
+            <EntityTypeMapping TypeName="GymDatabaseModel.Enrollment">
+              <MappingFragment StoreEntitySet="Enrollments">
+                <ScalarProperty Name="enrollment_id" ColumnName="enrollment_id" />
+                <ScalarProperty Name="member_id" ColumnName="member_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="enrollment_date" ColumnName="enrollment_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipments">
+            <EntityTypeMapping TypeName="GymDatabaseModel.Equipment">
+              <MappingFragment StoreEntitySet="Equipment">
+                <ScalarProperty Name="equipment_id" ColumnName="equipment_id" />
+                <ScalarProperty Name="equipment_name" ColumnName="equipment_name" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="purchase_date" ColumnName="purchase_date" />
+                <ScalarProperty Name="condition" ColumnName="condition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipment_Rentals">
+            <EntityTypeMapping TypeName="GymDatabaseModel.Equipment_Rentals">
+              <MappingFragment StoreEntitySet="Equipment_Rentals">
+                <ScalarProperty Name="rental_id" ColumnName="rental_id" />
+                <ScalarProperty Name="member_id" ColumnName="member_id" />
+                <ScalarProperty Name="equipment_id" ColumnName="equipment_id" />
+                <ScalarProperty Name="rental_date" ColumnName="rental_date" />
+                <ScalarProperty Name="return_date" ColumnName="return_date" />
+                <ScalarProperty Name="rental_status" ColumnName="rental_status" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Maintenance_Logs">
+            <EntityTypeMapping TypeName="GymDatabaseModel.Maintenance_Logs">
+              <MappingFragment StoreEntitySet="Maintenance_Logs">
+                <ScalarProperty Name="maintenance_id" ColumnName="maintenance_id" />
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+                <ScalarProperty Name="equipment_id" ColumnName="equipment_id" />
+                <ScalarProperty Name="maintenance_date" ColumnName="maintenance_date" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="GymDatabaseModel.Member">
+              <MappingFragment StoreEntitySet="Members">
+                <ScalarProperty Name="member_id" ColumnName="member_id" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="join_date" ColumnName="join_date" />
+                <ScalarProperty Name="membership_plan_id" ColumnName="membership_plan_id" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Membership_Plans">
+            <EntityTypeMapping TypeName="GymDatabaseModel.Membership_Plans">
+              <MappingFragment StoreEntitySet="Membership_Plans">
+                <ScalarProperty Name="membership_plan_id" ColumnName="membership_plan_id" />
+                <ScalarProperty Name="plan_name" ColumnName="plan_name" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Private_Lessons">
+            <EntityTypeMapping TypeName="GymDatabaseModel.Private_Lessons">
+              <MappingFragment StoreEntitySet="Private_Lessons">
+                <ScalarProperty Name="lesson_id" ColumnName="lesson_id" />
+                <ScalarProperty Name="member_id" ColumnName="member_id" />
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+                <ScalarProperty Name="lesson_date" ColumnName="lesson_date" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staffs">
+            <EntityTypeMapping TypeName="GymDatabaseModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="hire_date" ColumnName="hire_date" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visits">
+            <EntityTypeMapping TypeName="GymDatabaseModel.Visit">
+              <MappingFragment StoreEntitySet="Visits">
+                <ScalarProperty Name="visit_id" ColumnName="visit_id" />
+                <ScalarProperty Name="member_id" ColumnName="member_id" />
+                <ScalarProperty Name="visit_date" ColumnName="visit_date" />
+                <ScalarProperty Name="check_in_time" ColumnName="check_in_time" />
+                <ScalarProperty Name="check_out_time" ColumnName="check_out_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
